@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>Statistics</title>
+<script src="../js/jquery-1.7.2.min.js"></script>
+<script src="../js/json2.js"></script>
+
+<script type="text/javascript" language="javascript">
+
+function loadStats(){
+	$('#stage').empty();
+	
+	$.getJSON('/ns/bcaa/admin/stats', function(data) {
+		for (var i = 0; i < data.length; i++) {
+			var item = data[i];
+			var calls = $('<div>');
+			calls.append('<h4>' + item.name + '</h4>');
+			calls.append('Count : ' + item.count)
+			calls.append('<br/>');
+			calls.append('Avg: ' + item.avg)
+			calls.append('<br/>');
+			calls.append('Min: ' + item.min)
+			calls.append('<br/>');
+			calls.append('Max: ' + item.max)
+			calls.append('<br/>');
+			calls.append('Last: ' + item.last);
+			calls.append('<br/>');
+			calls.append('Args: ' + JSON.stringify(item.args));
+			calls.append('<br/>');
+			calls.append('Errors: ' + item.errorCount);
+			calls.append('<br/>');
+			for (var e = 0; e < item.lastErrors.length; e++) {
+				calls.append('Error: ' + item.lastErrors[e]);
+				calls.append('<br/>');
+				calls.append('Args: ' + JSON.stringify(item.lastErrorArgs[e]));
+				calls.append('<br/>');
+			}
+			calls.appendTo('#stage')
+		}
+	});
+}	
+   
+	$(document).ready(function() {
+		loadStats();
+		$("#driver").click(function(event){
+			loadStats();
+	    });
+	});
+</script>
+
+</head>
+<body>
+   <input type="button" id="driver" value="Reload" />
+   <p>Method statistics:</p>
+   <div id="stage">
+   </div>
+</body>
+</html>
