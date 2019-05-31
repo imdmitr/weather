@@ -6,11 +6,14 @@ import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.client.RestTemplate;
 
 import com.test.ConfigProperties;
 import com.test.owm.dto.CityWeather;
 import com.test.service.dto.WeatherDetails;
 
+@Controller
 public class WeatherRetriverImpl implements WeatherRetriver {
 
 	@Autowired
@@ -22,9 +25,14 @@ public class WeatherRetriverImpl implements WeatherRetriver {
 	@Value("${owm.weatherUri}")
 	private String url;
 	
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	
+	
 	
 	@Override
-	public WeatherDetails getCurrentWeather(String id) {
+	public WeatherDetails getCurrentWeather(long id) {
 		// TODO Auto-generated method stub
 		
 		String city = "London";
