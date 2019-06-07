@@ -30,6 +30,13 @@ public class ApplicationTestTest {
 		Date expiry = new Date(1559333181L * 1000);
 		System.out.println(df.format(expiry));
 
+		
+		forObject = restTemplate.getForObject(
+				"http://api.openweathermap.org/data/2.5/weather?&APPID={appkey}&id={city}", CityWeather.class,
+				"6e6a876862d407ef786868c2da49ccd2", "2643743");
+		System.out.println(forObject);
+		
+		
 		fail("Not yet implemented");
 	}
 

@@ -25,9 +25,9 @@ public class Sys {
     @JsonProperty("country")
     private String country;
     @JsonProperty("sunrise")
-    private Integer sunrise;
+    private Long sunrise;
     @JsonProperty("sunset")
-    private Integer sunset;
+    private Long sunset;
 
     @JsonProperty("type")
     public Integer getType() {
@@ -70,22 +70,22 @@ public class Sys {
     }
 
     @JsonProperty("sunrise")
-    public Integer getSunrise() {
+    public Long getSunrise() {
         return sunrise;
     }
 
     @JsonProperty("sunrise")
-    public void setSunrise(Integer sunrise) {
+    public void setSunrise(Long sunrise) {
         this.sunrise = sunrise;
     }
 
     @JsonProperty("sunset")
-    public Integer getSunset() {
+    public Long getSunset() {
         return sunset;
     }
 
     @JsonProperty("sunset")
-    public void setSunset(Integer sunset) {
+    public void setSunset(Long sunset) {
         this.sunset = sunset;
     }
 

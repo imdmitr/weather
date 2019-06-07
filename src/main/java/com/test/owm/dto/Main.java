@@ -16,23 +16,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Main {
 
     @JsonProperty("temp")
-    private Double temp;
+    private Float temp;
     @JsonProperty("pressure")
     private Integer pressure;
     @JsonProperty("humidity")
     private Integer humidity;
     @JsonProperty("temp_min")
-    private Double tempMin;
+    private Float tempMin;
     @JsonProperty("temp_max")
-    private Double tempMax;
+    private Float tempMax;
 
     @JsonProperty("temp")
-    public Double getTemp() {
+    public Float getTemp() {
         return temp;
     }
 
     @JsonProperty("temp")
-    public void setTemp(Double temp) {
+    public void setTemp(Float temp) {
         this.temp = temp;
     }
 
@@ -57,22 +57,22 @@ public class Main {
     }
 
     @JsonProperty("temp_min")
-    public Double getTempMin() {
+    public Float getTempMin() {
         return tempMin;
     }
 
     @JsonProperty("temp_min")
-    public void setTempMin(Double tempMin) {
+    public void setTempMin(Float tempMin) {
         this.tempMin = tempMin;
     }
 
     @JsonProperty("temp_max")
-    public Double getTempMax() {
+    public Float getTempMax() {
         return tempMax;
     }
 
     @JsonProperty("temp_max")
-    public void setTempMax(Double tempMax) {
+    public void setTempMax(Float tempMax) {
         this.tempMax = tempMax;
     }
 

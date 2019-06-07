@@ -39,7 +39,7 @@ public class CityWeather {
     @JsonProperty("clouds")
     private Clouds clouds;
     @JsonProperty("dt")
-    private Integer dt;
+    private Long dt;
     @JsonProperty("sys")
     private Sys sys;
     @JsonProperty("timezone")
@@ -122,12 +122,12 @@ public class CityWeather {
     }
 
     @JsonProperty("dt")
-    public Integer getDt() {
+    public Long getDt() {
         return dt;
     }
 
     @JsonProperty("dt")
-    public void setDt(Integer dt) {
+    public void setDt(Long dt) {
         this.dt = dt;
     }
 

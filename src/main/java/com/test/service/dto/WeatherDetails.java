@@ -5,7 +5,7 @@ import java.util.Date;
 public class WeatherDetails {
 	private Date today;
 	private String city;
-	private String id;
+	private int id;
 	private String description;
 	private int tempC;
 	private int tempF;
@@ -28,11 +28,11 @@ public class WeatherDetails {
 		this.city = city;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -75,5 +75,12 @@ public class WeatherDetails {
 	public void setSunrise(String sunrise) {
 		this.sunrise = sunrise;
 	}
+
+	@Override
+	public String toString() {
+		return "WeatherDetails [today=" + today + ", city=" + city + ", id=" + id + ", description=" + description
+				+ ", tempC=" + tempC + ", tempF=" + tempF + ", sunset=" + sunset + ", sunrise=" + sunrise + "]";
+	}
+	
 
 }
