@@ -6,52 +6,34 @@
 
 <script type="text/javascript" language="javascript">
 
-function loadStats(){
-	$('#stage').empty();
+function loadFavorites() {
+	var dd = $('#cities');
+	dd.empty();
 	
-	$.getJSON('/ns/bcaa/admin/stats', function(data) {
-		for (var i = 0; i < data.length; i++) {
-			var item = data[i];
-			var calls = $('<div>');
-			calls.append('<h4>' + item.name + '</h4>');
-			calls.append('Count : ' + item.count)
-			calls.append('<br/>');
-			calls.append('Avg: ' + item.avg)
-			calls.append('<br/>');
-			calls.append('Min: ' + item.min)
-			calls.append('<br/>');
-			calls.append('Max: ' + item.max)
-			calls.append('<br/>');
-			calls.append('Last: ' + item.last);
-			calls.append('<br/>');
-			calls.append('Args: ' + JSON.stringify(item.args));
-			calls.append('<br/>');
-			calls.append('Errors: ' + item.errorCount);
-			calls.append('<br/>');
-			for (var e = 0; e < item.lastErrors.length; e++) {
-				calls.append('Error: ' + item.lastErrors[e]);
-				calls.append('<br/>');
-				calls.append('Args: ' + JSON.stringify(item.lastErrorArgs[e]));
-				calls.append('<br/>');
-			}
-			calls.appendTo('#stage')
+	$.getJSON('/weather/favorites', function(data) {
+		for (var i = 0; i < data.items.length; i++) {
+			var item = data.items[i];
+			dd.append($('<option></option>').attr('value', item.id).text(item.city));
 		}
 	});
 }	
    
 	$(document).ready(function() {
-		loadStats();
-		$("#driver").click(function(event){
-			loadStats();
+		loadFavorites();
+		$("#reload").click(function(event){
+			loadFavorites();
 	    });
 	});
 </script>
 
 </head>
 <body>
-   <input type="button" id="driver" value="Reload" />
-   <p>Method statistics:</p>
-   <div id="stage">
+   <input type="text" id="searchCity" value="Hong Kong" />
+   <input type="button" id="search" value="Search" />
+   <input type="button" id="add" value="Add" />
+   <p>Cities:</p>
+   <div id="favorites">
+   		<select id="cities"></select>
    </div>
 </body>
 </html>
