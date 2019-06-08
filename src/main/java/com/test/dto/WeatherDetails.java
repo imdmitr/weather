@@ -1,4 +1,4 @@
-package com.test.service.dto;
+package com.test.dto;
 
 import java.util.Date;
 

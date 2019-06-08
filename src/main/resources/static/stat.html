@@ -6,6 +6,9 @@
 
 <script type="text/javascript" language="javascript">
 
+var currentCityId;
+var currentCity;
+
 function loadFavorites() {
 	var dd = $('#cities');
 	dd.empty();
@@ -14,26 +17,92 @@ function loadFavorites() {
 		for (var i = 0; i < data.items.length; i++) {
 			var item = data.items[i];
 			dd.append($('<option></option>').attr('value', item.id).text(item.city));
+			if (i == 0) {
+				getWeatherById(item.id);
+			}
 		}
 	});
+	
+	
+	
 }	
-   
+
+function getWeatherByCity(city) {
+	loadWeatherData('/weather/city/' + city);
+}
+
+function getWeatherById(cityId) {
+	loadWeatherData('/weather/' + cityId);
+}
+
+function loadWeatherData(uriData) {
+	var details = $('#details');
+	details.empty();
+
+	
+	$.getJSON(uriData, function(data) {
+		var calls = $('<div>');
+		calls.append('<h4>' + data.city + '</h4>');
+		calls.append('<p>' + data.id + '</p>');
+		calls.append('<p>' + data.description + '</p>');
+		calls.append('<p>' + data.tempC + '</p>');
+		calls.append('<p>' + data.tempF + '</p>');
+		calls.append('<p>' + data.sunset + '</p>');
+		calls.append('<p>' + data.sunrise + '</p>');
+		calls.appendTo('#details');
+		
+		currentCityId = data.id;
+		currentCity = data.city;
+	}).fail(function () {
+		currentCityId = null;
+		currentCity = null;		
+	});	
+}
+
+function addToFavorites() {
+	if (!currentCityId) {
+		return;
+	}
+	$.ajax({
+		  type: "PUT",
+		  url: "/weather/favorites/" + currentCityId + "/" + currentCity
+		})
+		  .done(function( msg ) {
+				var dd = $('#cities');
+				dd.append($('<option></option>').attr('value', currentCityId).text(currentCity));
+		  });
+}
+
 	$(document).ready(function() {
+		$('#cities').change(function() {
+			getWeatherById($('#cities').val());
+			currentCityId = null;
+			currentCity = null;
+		});
+		
 		loadFavorites();
-		$("#reload").click(function(event){
-			loadFavorites();
+		
+		$("#search").click(function(event){
+			getWeatherByCity($('#searchCity').val());
+			$("#add").prop('disabled', false);
+	    });
+		
+		$("#add").click(function(event){
+			addToFavorites();
 	    });
 	});
 </script>
 
 </head>
 <body>
-   <input type="text" id="searchCity" value="Hong Kong" />
-   <input type="button" id="search" value="Search" />
-   <input type="button" id="add" value="Add" />
-   <p>Cities:</p>
    <div id="favorites">
    		<select id="cities"></select>
+	   <input type="text" id="searchCity" value="Vancouver,ca" />
+	   <input type="button" id="search" value="Search" />
+	   <input type="button" id="add" value="Add" disabled="true"/>
+   </div>
+   <p>Weather</p>
+   <div id="details" >
    </div>
 </body>
 </html>

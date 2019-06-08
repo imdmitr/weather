@@ -1,22 +1,24 @@
 package com.test.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import static com.test.service.Utils.celcToF;
+import static com.test.service.Utils.getEpocDate;
+import static com.test.service.Utils.getTemperature;
+import static com.test.service.Utils.getTimeOnly;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.test.dto.WeatherDetails;
 import com.test.owm.dto.CityWeather;
 import com.test.owm.dto.Weather;
-import com.test.service.dto.WeatherDetails;
 
 @Component
 @ConfigurationProperties(prefix="owm")
-public class WeatherRetriverImpl implements WeatherRetriver {
+public class WeatherServiceImpl implements WeatherService {
 
 //	@Value("${appKey}")
 	private String appKey;
@@ -24,6 +26,8 @@ public class WeatherRetriverImpl implements WeatherRetriver {
 	private String url;
 	
 	private String uriGet;
+	
+	private String uriByCity;
 	
 	private String units;
 	
@@ -56,25 +60,6 @@ public class WeatherRetriverImpl implements WeatherRetriver {
 		return rez;
 	}
 	
-	private int celcToF(int value) {
-		return value * 9 / 5 + 32; 
-	}
-	
-	private int getTemperature(Float temp) {
-		return Math.round(temp);
-	}
-
-
-	private String getTimeOnly(Date date) {
-		SimpleDateFormat df = new SimpleDateFormat("hh:mm a"); 
-		df.setTimeZone(TimeZone.getTimeZone("UTC"));
-		return df.format(date);
-	}
-
-
-	private Date getEpocDate(long sec) {
-		return new Date(sec * 1000);
-	}
 
 	public String getAppKey() {
 		return appKey;
@@ -117,6 +102,22 @@ public class WeatherRetriverImpl implements WeatherRetriver {
 
 	public void setRestTemplate(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
+	}
+
+	public String getUriByCity() {
+		return uriByCity;
+	}
+
+
+	public void setUriByCity(String uriByCity) {
+		this.uriByCity = uriByCity;
+	}
+
+
+	@Override
+	public WeatherDetails getCurrentWeatherByCityName(String city) {
+		CityWeather cityWeather = restTemplate.getForObject(url + uriByCity, CityWeather.class, appKey, units, city);
+		return convertToDetails(cityWeather);
 	}
 	
 }
