@@ -15,7 +15,7 @@ import com.test.service.FavoritesService;
 import com.test.service.WeatherService;
 
 @RestController
-@RequestMapping(value = "/weather", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/weather", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class WeatherResource {
 
 	@Autowired
